@@ -1,4 +1,3 @@
-import config
 import os
 import shutil
 import pandas as pd
@@ -7,6 +6,7 @@ from datetime import datetime
 from glob import glob
 from os import path
 
+from src import prog_config
 from src.compare import compare
 from src.prog_config import BLANK, SAMPLE
 
@@ -23,7 +23,7 @@ def to_matrix(exp_path, data_type, prefix):
     """
 
     tmp = []
-    for i in range(config.n):
+    for i in range(prog_config.n):
         filename = path.join(exp_path, data_type, prefix + "#%02d.sp" % (i + 1))
 
         flag_LS45 = flag_data = False
@@ -54,7 +54,7 @@ def to_matrix(exp_path, data_type, prefix):
         tmp.append(s)
 
     df = pd.concat(tmp, axis=1)
-    assert df.shape == (config.m, config.n)
+    assert df.shape == (prog_config.m, prog_config.n)
 
     return df
 
@@ -88,10 +88,10 @@ def construct_blank(exp_path):
     blank_sum = 0
 
     # calculate sum
-    for idx, value in df[float(config.sum_col)].iteritems():
-        if float(idx) < float(config.sum_row_start):
+    for idx, value in df[float(prog_config.sum_col)].iteritems():
+        if float(idx) < float(prog_config.sum_row_start):
             continue
-        elif float(config.sum_row_end) < float(idx):
+        elif float(prog_config.sum_row_end) < float(idx):
             break
         else:
             blank_sum += float(value)
@@ -116,13 +116,13 @@ def prepare_output_env(exp_name_date, base_output_dir):
     else:
         print("Successfully created the directory %s" % output_dir)
 
-    config_path = path.join(*base_output_dir, exp_name_date, "config.txt")
-    shutil.copyfile(path.join(".", "config.py"), config_path)
+    config_path = path.join(*base_output_dir, exp_name_date, "config.ini")
+    shutil.copyfile(path.join(".", "config.ini"), config_path)
 
 
 def do_process(exp_path, base_output_dir):
     now = datetime.now()
-    dt_string = now.strftime("%Y%m%d_%H%M_%S")
+    dt_string = now.strftime("%Y%m%d_%H-%M-%S")
 
     exp_name = path.basename(exp_path)
     exp_name_date = "_".join([dt_string, exp_name])

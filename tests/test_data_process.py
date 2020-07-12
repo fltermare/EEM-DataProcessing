@@ -49,7 +49,7 @@ def test_do_process():
 
     res_num_exp = len(glob(path.join(*TEST_OUTPUT_DIR, "*")))
     res_num_csv = len(glob(path.join(*TEST_OUTPUT_DIR, "*", "*.csv")))
-    res_num_config = len(glob(path.join(*TEST_OUTPUT_DIR, "*", "*.txt")))
+    res_num_config = len(glob(path.join(*TEST_OUTPUT_DIR, "*", "*.ini")))
 
     ans_num_config = ans_num_exp = 2
     ans_num_csv = 8
