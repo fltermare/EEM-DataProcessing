@@ -15,8 +15,8 @@ SAMPLE = "samples"
 config = configparser.ConfigParser()
 config.read(path.join(".", "config.ini"))
 
-m = int(config['parameter']['m'])
-n = int(config['parameter']['n'])
-sum_col = float(config['parameter']['sum_col'])
-sum_row_start = float(config['parameter']['sum_row_start'])
-sum_row_end = float(config['parameter']['sum_row_end'])
+m = int(config["parameter"]["m"])
+n = int(config["parameter"]["n"])
+sum_col = float(config["parameter"]["sum_col"])
+sum_row_start = float(config["parameter"]["sum_row_start"])
+sum_row_end = float(config["parameter"]["sum_row_end"])
