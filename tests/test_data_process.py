@@ -10,7 +10,7 @@ def test_get_names():
 
     exp_path = path.join(*TEST_INPUT_DATA_DIR, "test_exp1")
     names = get_names(exp_path, SAMPLE)
-    ans = sorted(['0124 SCX3 230 123', '0124 SCX3 230 550'])
+    ans = sorted(["0124 SCX3 230 123", "0124 SCX3 230 550"])
 
     assert ans == sorted(names)
 
@@ -21,19 +21,19 @@ def test_construct_sample():
     res_df = construct_sample(exp_path, "0124 SCX3 230 123")
 
     ans_path = path.join(*TEST_INPUT_DATA_DIR, "test_exp1", "20200711.xlsx")
-    ans_df = pd.read_excel(ans_path, sheet_name='data', index_col=0)
+    ans_df = pd.read_excel(ans_path, sheet_name="data", index_col=0)
 
     assert np.array_equal(np.around(res_df.values, 6), np.around(ans_df.values, 6))
 
 
 def test_construct_blank():
-    
+
     exp_path = path.join(*TEST_INPUT_DATA_DIR, "test_exp1")
     res_df, res_sum = construct_blank(exp_path)
 
     ans_sum = 2614.957
     ans_path = path.join(*TEST_INPUT_DATA_DIR, "test_exp1", "20200711.xlsx")
-    ans_df = pd.read_excel(ans_path, sheet_name='blank', index_col=0)
+    ans_df = pd.read_excel(ans_path, sheet_name="blank", index_col=0)
 
     assert res_sum == ans_sum
     assert np.array_equal(np.around(res_df.values, 6), np.around(ans_df.values, 6))
@@ -58,7 +58,6 @@ def test_do_process():
     test_output_dir = path.join(*TEST_OUTPUT_DIR)
     shutil.rmtree(test_output_dir)
     os.mkdir(test_output_dir)
-
 
     assert res_num_exp == ans_num_exp
     assert res_num_csv == ans_num_csv

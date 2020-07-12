@@ -106,13 +106,10 @@ def construct_sample(exp_path, name):
     return df
 
 
-def prepare_output_env(output_dir, exp_name_date, base_output_dir):
-    try:
-        os.rmdir("./output/*/")
-    except:
-        print("Nothing to delete")
+def prepare_output_env(exp_name_date, base_output_dir):
 
     try:
+        output_dir = path.join(*base_output_dir, exp_name_date)
         os.mkdir(output_dir)
     except OSError:
         print("Creation of the directory %s failed" % output_dir)
@@ -121,8 +118,6 @@ def prepare_output_env(output_dir, exp_name_date, base_output_dir):
 
     config_path = path.join(*base_output_dir, exp_name_date, "config.txt")
     shutil.copyfile(path.join(".", "config.py"), config_path)
-    print(config_path)
-    print(os.getcwd())
 
 
 def do_process(exp_path, base_output_dir):
@@ -131,13 +126,12 @@ def do_process(exp_path, base_output_dir):
 
     exp_name = path.basename(exp_path)
     exp_name_date = "_".join([dt_string, exp_name])
-    output_dir = path.join(*base_output_dir, exp_name_date)
+
     if exp_name == "sample_exp":
         return
-    print(base_output_dir, exp_name)
-    print(output_dir)
+
     # check env
-    prepare_output_env(output_dir, exp_name_date, base_output_dir)
+    prepare_output_env(exp_name_date, base_output_dir)
 
     blank_matrix, blank_sum = construct_blank(exp_path)
 
