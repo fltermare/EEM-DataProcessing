@@ -122,7 +122,7 @@ def prepare_output_env(exp_name_date, base_output_dir):
 
 def do_process(exp_path, base_output_dir):
     now = datetime.now()
-    dt_string = now.strftime("%Y%m%d_%H:%M:%S")
+    dt_string = now.strftime("%Y%m%d_%H%M%S")
 
     exp_name = path.basename(exp_path)
     exp_name_date = "_".join([dt_string, exp_name])
