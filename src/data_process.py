@@ -8,10 +8,7 @@ from glob import glob
 from os import path
 
 from src.compare import compare
-
-BLANK = "blank"
-SAMPLE = "samples"
-OUTPUT_DIR = "output"
+from src.prog_config import BLANK, SAMPLE
 
 
 def to_matrix(exp_path, data_type, prefix):
@@ -109,7 +106,7 @@ def construct_sample(exp_path, name):
     return df
 
 
-def prepare_output_env(output_dir, exp_name_date):
+def prepare_output_env(output_dir, exp_name_date, base_output_dir):
     try:
         os.rmdir("./output/*/")
     except:
@@ -122,25 +119,25 @@ def prepare_output_env(output_dir, exp_name_date):
     else:
         print("Successfully created the directory %s" % output_dir)
 
-    config_path = path.join(".", OUTPUT_DIR, exp_name_date, "config.txt")
+    config_path = path.join(*base_output_dir, exp_name_date, "config.txt")
     shutil.copyfile(path.join(".", "config.py"), config_path)
     print(config_path)
     print(os.getcwd())
 
 
-def do_process(exp_path):
+def do_process(exp_path, base_output_dir):
     now = datetime.now()
     dt_string = now.strftime("%Y%m%d_%H:%M:%S")
 
     exp_name = path.basename(exp_path)
     exp_name_date = "_".join([dt_string, exp_name])
-    output_dir = path.join(".", OUTPUT_DIR, exp_name_date)
+    output_dir = path.join(*base_output_dir, exp_name_date)
     if exp_name == "sample_exp":
         return
-    print(OUTPUT_DIR, exp_name)
+    print(base_output_dir, exp_name)
     print(output_dir)
     # check env
-    prepare_output_env(output_dir, exp_name_date)
+    prepare_output_env(output_dir, exp_name_date, base_output_dir)
 
     blank_matrix, blank_sum = construct_blank(exp_path)
 
@@ -151,12 +148,12 @@ def do_process(exp_path):
 
         # output ITN
         filename = "_".join([name, "ITN", dt_string]) + ".csv"
-        path_itn = path.join(".", OUTPUT_DIR, exp_name_date, filename)
+        path_itn = path.join(*base_output_dir, exp_name_date, filename)
         data["ITN"].to_csv(path_itn)
         print("[Done]", path_itn)
 
         # output RU
         filename = "_".join([name, "RU", dt_string]) + ".csv"
-        path_ru = path.join(".", OUTPUT_DIR, exp_name_date, filename)
+        path_ru = path.join(*base_output_dir, exp_name_date, filename)
         data["RU"].to_csv(path_ru)
         print("[Done]", path_ru)
