@@ -26,9 +26,9 @@ def compare(blank_matrix, blank_sum, sample_matrix):
     res = {}
 
     df_itn = ITN(blank_matrix, sample_matrix)
-    res['ITN'] = df_itn
+    res["ITN"] = df_itn
 
     df_ru = RU(blank_matrix, blank_sum, sample_matrix)
-    res['RU'] = df_ru
+    res["RU"] = df_ru
 
     return res
